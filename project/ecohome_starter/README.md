@@ -31,8 +31,7 @@ ecohome_starter/
 ├── requirements.txt           # Python dependencies
 ├── 01_db_setup.ipynb         # Database setup and sample data
 ├── 02_rag_setup.ipynb        # RAG pipeline setup
-├── 03_agent_evaluation.ipynb # Agent testing and evaluation
-├── 04_agent_run.ipynb        # Running the agent with examples
+├── 03_run_and_evaluate.ipynb # Agent running, testing and evaluation
 └── README.md                  # This file
 ```
 
@@ -40,17 +39,20 @@ ecohome_starter/
 
 ### 1. Install Dependencies
 
+The Project Workspace already has every package this project needs, so there is nothing to install there.
+
+On your own computer, use Python 3.11, 3.12 or 3.13 and install the pinned versions:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 2. Set Environment Variables
 
-Create a `.env` file with your API keys:
+Create a `.env` file with your Vocareum API key:
 
 ```bash
 VOCAREUM_API_KEY=your_vocareum_api_key_here
-OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 ### 3. Run the Notebooks
@@ -59,8 +61,7 @@ Execute the notebooks in order:
 
 1. **01_db_setup.ipynb** - Set up the database and populate with sample data
 2. **02_rag_setup.ipynb** - Configure the RAG pipeline for energy tips
-3. **03_agent_evaluation.ipynb** - Test and evaluate the agent
-4. **04_agent_run.ipynb** - Run the agent with example scenarios
+3. **03_run_and_evaluate.ipynb** - Run, test and evaluate the agent
 
 ## Agent Capabilities
 
