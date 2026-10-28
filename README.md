@@ -1,37 +1,52 @@
-# Purpose of This Repo
+# AI Agent with LangGraph: EcoHome Energy Advisor
 
-This repo is meant to be used to keep things organized during content development and act as the source of truth for all projects and exercises related to this course.
+## Project Scenario
 
-## Folder Structure
+You've joined EcoHome, a cutting-edge smart-home energy startup that's revolutionizing how customers manage their energy consumption. Your team is building the next generation of AI-powered energy optimization systems that help customers with solar panels, electric vehicles, and smart home devices reduce their electricity costs and environmental impact.
 
-### Lesson Folder
+The goal? Build an intelligent Energy Advisor agent that can analyze real-time data, understand energy patterns, and provide personalized recommendations for optimal device scheduling and energy usage.
 
-This repo contains a folder for each `lesson` and one `project` folder.
+You'll need to design an agent system that can:
 
-Example
-```
-lesson-1-hello
-lesson-2-world
-lesson-3-foo
-lesson-4-bar
-project
-```
+- Analyze energy usage patterns and solar generation data
+- Provide personalized recommendations for when to run devices
+- Suggest energy-saving strategies based on weather forecasts and electricity prices
+- Help customers maximize their solar power usage
+- Calculate potential savings from optimizations
 
-Each `lesson` folder is named using the naming convention of `lesson-#-name-of-lesson`.
+Your agent should not only provide advice, it should make data-driven decisions about energy optimization!
 
-Example
-```
-lesson-1-hello
-```
+## Project Introduction
 
-Four lesson folders have been provided as a template; However, you may need to add more or possibly use less than four depending on what is needed.
+In this project, you will develop the EcoHome Energy Advisor, an intelligent agent capable of optimizing energy usage across multiple smart home devices and systems.
 
-If you require an additional lesson folder, you can make a copy of the folder and paste it into the root directory.
+### Key Capabilities
 
-### Exercises Folder
+- **Multi-Tool Integration**: Weather forecasts, electricity pricing, energy usage queries, and solar generation data
+- **RAG Pipeline**: Retrieval-augmented generation for energy-saving tips and best practices
+- **Historical Analysis**: Query past energy usage patterns for personalized advice
+- **Cost Optimization**: Consider time-of-day pricing and solar generation for recommendations
+- **Savings Calculations**: Provide specific savings estimates and ROI analysis
 
-Each `lesson` folder contains an `exercises` folder. This `exercises` folder should contain all files and instructions necessary for the exercises along with the solution. The solutions for these exercises will be shared with students. See the `README` in the `exercises` folder for information about folder structure.
+### Inputs
 
-### Project Folder
+- Energy usage data (consumption, device types, costs)
+- Solar generation data (production, weather conditions)
+- Weather forecasts and electricity pricing
+- Energy-saving knowledge base
+- User questions about energy optimization
 
-The `project` folder should contain all files and instructions necessary for setup. If possible, a set of instructions should be provided for both Udacity workspaces and a way to work locally (for both MacOS and Windows OS). At a minimum, one set of instructions should be provided. A `README` template has been provided in the project folder. This template layout should be used to write your README.
+### Deliverables
+
+A LangGraph-powered agent system that:
+
+- Understands energy optimization questions
+- Retrieves relevant data using appropriate tools
+- Provides personalized recommendations based on data analysis
+- Cites relevant energy-saving tips from the knowledge base
+- Calculates potential savings and environmental impact
+
+## Repository Layout
+
+- [`project/ecohome_solution/`](project/ecohome_solution/) - the completed project. See its [README](project/ecohome_solution/README.md) for setup instructions and implementation details.
+- [`project/ecohome_starter/`](project/ecohome_starter/) - the original starter code.
