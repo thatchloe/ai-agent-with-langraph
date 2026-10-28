@@ -1,0 +1,27 @@
+Renewable Energy Integration
+
+Rooftop solar produces the most electricity in the middle of the day, typically between 10 AM and 3 PM, with peak output around solar noon. Getting the most value from solar means using as much of that energy at home as possible, which is called self-consumption.
+
+Maximizing Solar Self-Consumption:
+- Shift flexible loads into the midday solar window: EV charging, dishwasher, washing machine, dryer, pool pump and water heating.
+- Solar energy used directly at home avoids buying grid electricity at the full retail rate, which is usually worth more than the export credit received for sending power back to the grid.
+- Run high-power loads one at a time rather than all at once, so they stay within your solar output instead of drawing the excess from the grid.
+- On a sunny day a 5 kW system can produce 25-30 kWh. On a cloudy day this can drop to 30% of that, and on a rainy day to about 10%. Check the weather forecast before planning solar-powered tasks.
+
+Using Weather Forecasts:
+- Plan solar-heavy tasks for sunny or partly cloudy days. On cloudy or rainy days, fall back to off-peak grid hours (typically 10 PM to 6 AM).
+- Solar panels are slightly more efficient in cool, sunny weather. Very hot days reduce panel output by about 0.3-0.5% per °C above 25°C.
+- Solar irradiance above roughly 600 W/m² indicates strong production. Below 200 W/m², generation is minimal.
+
+Electric Vehicles and Solar:
+- An EV is the largest flexible load in most homes. Charging at home with solar can supply 30-40 miles of driving per sunny day from a typical rooftop system.
+- If the car is home during the day, set the charger to start at the beginning of the solar window and limit the charging rate so it tracks solar output.
+- If the car is away during the day, charge during off-peak hours overnight instead.
+
+Net Metering and Export:
+- Under net metering, excess solar is credited on your bill. Under newer tariffs (such as net billing), export credits are often much lower than retail rates, which makes self-consumption and battery storage more valuable.
+- Avoid exporting large amounts of solar at midday and then buying power back during the evening peak.
+
+System Care:
+- Keep panels clear of heavy dust, leaves and bird droppings. Rinse with water if soiling is visible; dirty panels can lose 5-20% of output.
+- Monitor production through the inverter app and investigate sudden drops, which can indicate shading, faults or inverter issues.

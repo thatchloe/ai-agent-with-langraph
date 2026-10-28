@@ -1,0 +1,30 @@
+HVAC Optimization Strategies
+
+Heating and cooling are usually the largest share of a home's energy use, often 40-50% of the electricity bill in homes with central air conditioning. Small changes to thermostat settings and maintenance add up to large savings.
+
+Thermostat Setpoints:
+- In summer, set the thermostat to 78°F (25-26°C) when home and 85°F (29°C) when away.
+- In winter, set the thermostat to 68°F (20°C) when awake and 60-62°F (16-17°C) when asleep or away.
+- Every 1°F of setback held for 8 hours a day saves roughly 1% on heating or cooling costs. A 7-10°F setback for 8 hours a day can save up to 10% per year.
+- Avoid setting the thermostat lower or higher than needed to cool or heat faster. Most systems run at a single speed, so extreme setpoints only waste energy.
+
+Pre-Cooling and Pre-Heating Around Peak Prices:
+- When time-of-use prices spike in the afternoon (commonly 4 PM to 9 PM), pre-cool the home by 2-3°F during cheaper or solar-rich hours (for example 12 PM to 3 PM), then let the temperature drift up to 78-80°F during the peak period.
+- A well-insulated home holds a pre-cooled temperature for 2-4 hours. Close blinds on sun-facing windows to slow heat gain.
+- In winter, pre-heat by 2°F before the peak and lower the setpoint to 66°F during the peak.
+- Pre-cooling with solar energy shifts air conditioner load away from expensive grid power and can cut peak-period HVAC costs by 20-40%.
+
+Heat Pumps:
+- Heat pumps deliver 2-4 units of heat for every unit of electricity, making them far more efficient than electric resistance heating.
+- Avoid large setbacks with heat pumps in very cold weather, as recovery can trigger inefficient auxiliary resistance heat. Use smaller 2-4°F setbacks instead.
+
+Maintenance:
+- Replace or clean air filters every 1-3 months. A dirty filter can increase energy use by 5-15%.
+- Keep outdoor condenser units clear of leaves and debris, with at least 2 feet of clearance.
+- Schedule a professional tune-up once a year: refrigerant charge, coil cleaning and airflow checks keep efficiency high.
+- Seal and insulate ducts in attics and crawl spaces. Leaky ducts can waste 20-30% of the air moving through the system.
+
+Airflow and Comfort:
+- Ceiling fans let you raise the cooling setpoint by about 4°F with no loss of comfort. Turn fans off when leaving a room, since they cool people, not rooms.
+- Keep supply and return vents unobstructed by furniture or rugs.
+- Use zoning or smart vents to avoid conditioning unused rooms.

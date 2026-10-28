@@ -1,0 +1,27 @@
+Electric Vehicle Charging Optimization
+
+Home EV charging is often the largest single electricity load in a household, so when you charge has a big effect on cost and carbon emissions.
+
+How Much Energy an EV Uses:
+- Most EVs use 25-35 kWh per 100 miles. A Tesla Model 3 uses about 25 kWh per 100 miles.
+- A typical daily commute of 30-40 miles requires 8-12 kWh of charging.
+- A Level 2 home charger (240 V) delivers 7-11 kW, adding 25-35 miles of range per hour. A Level 1 outlet (120 V) delivers about 1.4 kW, adding 3-5 miles per hour.
+
+Choosing the Best Time to Charge:
+- Avoid charging during peak hours (commonly 4 PM to 9 PM on weekdays), when rates can be 2-3 times the off-peak rate.
+- If you have solar and the car is home during the day, charge during the solar window (about 10 AM to 3 PM on sunny days). Solar charging is effectively free and zero-emission.
+- If the car is away during the day or the forecast is cloudy, charge during off-peak hours (typically 10 PM to 6 AM).
+- Use the car's or charger's scheduled charging feature so charging finishes shortly before you leave, which also keeps the battery warm in cold weather.
+
+Battery Health:
+- For daily driving, set the charge limit to 80-90%. Charge to 100% only before long trips.
+- Avoid leaving the battery near 0% or 100% for long periods.
+- Frequent DC fast charging is more expensive and adds battery wear; home Level 2 charging is the best default.
+
+Cost Example:
+- Charging 10 kWh at a peak rate of $0.27/kWh costs $2.70. The same charge at an off-peak rate of $0.09/kWh costs $0.90, saving $1.80 per charge, or about $650 per year for daily charging.
+- Charging the same 10 kWh entirely from rooftop solar avoids the grid cost entirely and about 3.9 kg of CO2 per charge.
+
+Smart Charging Features:
+- Many chargers support solar-following mode, which adjusts the charging rate to match surplus solar production.
+- Utility EV rate plans and managed charging programs can offer even lower overnight rates or bill credits.

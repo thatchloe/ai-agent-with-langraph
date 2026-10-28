@@ -1,0 +1,31 @@
+Energy Storage Optimization
+
+Home batteries store energy for use later, letting a household use solar power in the evening, avoid peak electricity prices and keep essential loads running during outages.
+
+Battery Basics:
+- A typical home battery stores 10-15 kWh, enough to run an efficient home's essential loads through the evening peak.
+- Round-trip efficiency is usually 85-90%, meaning about 10-15% of stored energy is lost. Storing energy only pays off when the price difference between charging and discharging is larger than these losses.
+- Lithium-ion batteries last longest when they are not kept at 100% or 0% for long periods. Many systems reserve 10-20% capacity for backup and battery health.
+
+Operating Modes:
+- Self-consumption mode: charge from excess solar during the day and discharge in the evening and overnight. Best when export credits are much lower than retail rates.
+- Time-of-use (TOU) arbitrage mode: charge from solar or cheap off-peak grid power, then discharge during peak hours (commonly 4 PM to 9 PM). Best when the peak rate is significantly higher than the off-peak rate.
+- Backup mode: keep the battery full for outages. Use this when storms or planned outages are forecast.
+
+Scheduling Strategies:
+- On sunny days, let solar fill the battery before noon if possible, then use remaining solar for flexible loads such as EV charging.
+- On cloudy days, consider charging the battery from the grid during off-peak hours (overnight) so it is ready for the evening peak.
+- Set the battery to discharge first during the most expensive hours of the day. Avoid using battery power during off-peak hours, when grid power is cheap.
+- Check the weather forecast: before a stretch of cloudy days, keep a higher reserve.
+
+EVs as Storage:
+- An EV battery (50-80 kWh) is several times larger than a home battery. Smart charging that follows solar output and off-peak prices turns the car into a flexible load.
+- Vehicle-to-home (V2H) capable cars and chargers can power the home during peak hours or outages. Check vehicle and charger compatibility.
+
+Water Heaters as Thermal Storage:
+- A water heater can store energy as heat. Heat water during solar or off-peak hours to 130-140°F (with a mixing valve for safety) and turn it off during peak hours.
+- Heat pump water heaters use 60-70% less energy than standard electric tanks and work well with solar.
+
+Return on Investment:
+- Battery payback depends on the gap between peak and off-peak rates, export credit rates and available incentives. A larger gap between peak and off-peak prices means faster payback.
+- Estimate daily savings as: energy shifted per day (kWh) x (peak rate - charging rate) x round-trip efficiency.

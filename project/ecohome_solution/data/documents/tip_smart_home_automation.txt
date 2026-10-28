@@ -1,0 +1,29 @@
+Smart Home Automation Tips
+
+Automation makes energy savings effortless by running devices at the right time without anyone having to remember. A connected home can respond to electricity prices, solar output and occupancy automatically.
+
+Smart Thermostats:
+- Learning or schedule-based smart thermostats save about 8-10% on heating and cooling costs on average.
+- Enable geofencing so the thermostat switches to an away setpoint when everyone leaves and returns to comfort before you arrive.
+- Use utility demand response or time-of-use modes, which automatically pre-cool or pre-heat before peak pricing periods.
+
+Price- and Solar-Aware Scheduling:
+- Connect flexible loads such as EV chargers, dishwashers, washing machines, water heaters and pool pumps to a schedule or automation that starts them when prices are lowest or solar production is highest.
+- Create a "solar surplus" automation: when solar generation exceeds household consumption by more than 1-2 kW, start the dishwasher, laundry or EV charging.
+- Create a "peak price" automation: during peak hours, raise the cooling setpoint by 2-4°F, pause the water heater and delay non-urgent appliances.
+- Set delayed-start on appliances so cycles finish just before they are needed, for example a dishwasher that runs at 11 PM after off-peak rates begin.
+
+Smart Plugs and Power Strips:
+- Standby or phantom loads from TVs, game consoles, chargers and computers can account for 5-10% of household electricity use.
+- Use smart plugs or advanced power strips to cut power to entertainment centers and home office equipment overnight and when away.
+- Smart plugs with energy monitoring help identify which devices use the most power.
+
+Lighting:
+- Replace remaining incandescent and halogen bulbs with LEDs, which use about 75% less energy and last 25 times longer.
+- Use occupancy sensors in rooms that are often left lit, such as garages, laundry rooms and bathrooms.
+- Schedule outdoor lights with dusk-to-dawn sensors or timers rather than leaving them on.
+
+Energy Monitoring:
+- A whole-home energy monitor shows real-time consumption and makes it easy to spot unusual usage, such as a failing refrigerator or an AC running too long.
+- Review weekly usage reports and set alerts for unusually high daily consumption.
+- Households with real-time feedback on their energy use typically reduce consumption by 5-15%.

@@ -1,0 +1,25 @@
+Understanding Time-of-Use Electricity Pricing
+
+Under time-of-use (TOU) pricing, the price of electricity depends on the time of day. Rates are lowest when demand on the grid is low and highest during the late afternoon and evening, when demand peaks.
+
+Typical TOU Periods:
+- Off-peak: overnight, roughly 10 PM to 6 AM. The cheapest rates, often 40-60% below peak.
+- Mid-peak (partial peak): daytime and late evening hours outside the peak.
+- Peak: weekday late afternoon and evening, commonly 4 PM to 9 PM. Rates can be 1.5-3 times the off-peak rate, and some plans add a demand charge.
+- Weekends and holidays are often entirely off-peak or mid-peak.
+
+Shifting Loads to Save Money:
+- Flexible loads are devices whose timing does not matter much: EV charging, dishwashers, washing machines, dryers, pool pumps and water heaters. Move these out of peak hours first.
+- Running a dishwasher (about 1.5 kWh per cycle) at an off-peak rate instead of a peak rate saves roughly $0.15-$0.30 per cycle, or $50-$100 per year for daily use.
+- A pool pump using 1.5 kW for 8 hours a day uses 12 kWh. Moving that run time from peak to off-peak or solar hours can save $1-$2 per day during the swimming season.
+- Combine TOU pricing with solar: use solar during the day, off-peak grid power overnight, and minimize use during the peak.
+
+Reducing Peak Usage You Cannot Shift:
+- Pre-cool or pre-heat the home before the peak period begins, then let the temperature drift during the peak.
+- Cook with smaller appliances like microwaves and air fryers during peak hours.
+- Use a home battery or EV with vehicle-to-home capability to cover evening peak usage.
+
+Calculating Savings:
+- Savings from shifting = energy shifted (kWh) x (peak rate - off-peak rate).
+- Annual savings = savings per occurrence x number of occurrences per year.
+- Carbon impact depends on the grid mix at that hour; using solar energy avoids about 0.39 kg of CO2 per kWh on an average US grid.

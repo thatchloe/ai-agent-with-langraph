@@ -1,0 +1,34 @@
+Seasonal Energy Management
+
+Energy use and solar production change throughout the year. Adjusting habits and settings with the seasons keeps bills low year-round.
+
+Summer:
+- Air conditioning drives summer usage. Set the thermostat to 78°F when home and use ceiling fans to feel cooler.
+- Pre-cool during midday solar hours and coast through the afternoon peak.
+- Close blinds and curtains on south- and west-facing windows during the hottest part of the day. Shading can cut cooling costs by up to 25%.
+- Avoid using the oven on hot afternoons. Grill outdoors or use a microwave, air fryer or slow cooker instead.
+- Solar production is highest in summer due to long days, so this is the best season to shift loads into daytime hours.
+- Run pool pumps during the solar window in summer, and reduce daily run time to 6-8 hours with a variable-speed pump.
+
+Fall:
+- Schedule an HVAC tune-up before heating season and replace the air filter.
+- Seal drafts around windows, doors and outlets with weatherstripping and caulk before cold weather arrives.
+- Shorten pool pump run times as water temperatures drop, and close the pool for winter if possible.
+- Days get shorter, so solar windows narrow. Recheck automation schedules that depend on solar timing.
+
+Winter:
+- Set the thermostat to 68°F when awake and lower it at night and when away.
+- Open curtains on sunny south-facing windows during the day for free solar heat, and close them at night to retain warmth.
+- Solar production can be 40-60% lower than in summer. Rely more on off-peak overnight hours for EV charging and laundry.
+- Use space heaters only to heat a single occupied room for short periods, never as a whole-home heating solution.
+- Lower the water heater to 120°F; heat loss from tanks and pipes is greater in cold weather, so insulate exposed pipes.
+
+Spring:
+- Spring is often the most efficient season: mild temperatures mean little heating or cooling, and solar production rises quickly.
+- Open windows for natural ventilation on mild days instead of running HVAC.
+- Clean solar panels after winter and check production against last year's spring output.
+- Review the past winter's energy bills to identify which upgrades, such as insulation or a heat pump, would give the best return.
+
+Year-Round Planning:
+- Compare your monthly usage with the same month last year rather than the previous month, since seasons strongly affect consumption.
+- Time-of-use rates and peak periods may change by season. Check your utility's summer and winter schedules.
