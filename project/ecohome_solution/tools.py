@@ -483,11 +483,13 @@ def get_vectorstore() -> Chroma:
     global _vectorstore
     if _vectorstore is None:
         if os.path.exists(os.path.join(VECTORSTORE_DIR, "chroma.sqlite3")):
+            # Load existing vector store
             _vectorstore = Chroma(persist_directory=VECTORSTORE_DIR, embedding_function=get_embeddings())
             # An empty store (e.g. from an interrupted build) is rebuilt instead of returning no tips
             if _vectorstore._collection.count() == 0:
                 _vectorstore = build_vectorstore()
         else:
+            # Vector store doesn't exist: initialize it, load and split the documents, and index them
             _vectorstore = build_vectorstore()
     return _vectorstore
 

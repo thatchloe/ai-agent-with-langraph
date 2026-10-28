@@ -1,62 +1,19 @@
 import os
 import uuid
 from datetime import datetime, timedelta
-from typing import Any, Dict, Optional
+from typing import Annotated, Any, Dict, List, Optional, TypedDict
 
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from langchain_core.messages import AIMessage, AnyMessage, HumanMessage, SystemMessage
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.errors import GraphRecursionError
-from langgraph.prebuilt import create_react_agent
+from langgraph.graph import END, START, StateGraph
+from langgraph.graph.message import add_messages
+from langgraph.prebuilt import ToolNode, tools_condition
 from tools import TOOL_KIT, VOCAREUM_BASE_URL
 
 load_dotenv()
-
-
-ECOHOME_SYSTEM_PROMPT = """You are the EcoHome Energy Advisor, an expert in residential energy optimization for \
-homes with rooftop solar, electric vehicles, smart thermostats and smart appliances. Your job is to help the \
-customer lower their electricity bill and carbon footprint with specific, data-driven recommendations.
-
-## Your tools
-- get_weather_forecast: hourly weather, solar irradiance and estimated solar generation for up to 7 days, \
-with a per-day summary and best solar window. Use it for any question about tomorrow, a weekday, "this week" \
-or solar production.
-- get_electricity_prices: time-of-use rates per hour for a date (off_peak, mid_peak, peak). Use it whenever \
-timing or cost matters. Call it once per date you are recommending for.
-- query_energy_usage: the customer's historical consumption by device (EV, HVAC, appliance) with hourly profile.
-- query_solar_generation: the customer's historical solar production by day, hour and weather.
-- get_recent_energy_summary: last N hours of usage vs. generation.
-- search_energy_tips: the EcoHome knowledge base of energy-saving best practices.
-- calculate_energy_savings: savings in kWh, USD, % and CO2. Use it for every savings figure you quote; to \
-model shifting usage to a cheaper time, pass the old rate as price_per_kwh and the new rate as \
-optimized_price_per_kwh.
-
-## How to work
-1. Work out what the customer is asking and which dates it refers to. Resolve relative dates ("tomorrow", \
-"Wednesday", "this week") using the current date given in the context.
-2. Gather data before answering. Never invent prices, forecasts, usage numbers or savings - get them from a \
-tool. Typical combinations:
-   - Scheduling a device (EV, dishwasher, laundry, pool pump): weather forecast + electricity prices, then \
-pick the hours that are both cheap and/or covered by solar.
-   - Thermostat / HVAC: weather forecast (temperatures) + electricity prices + search_energy_tips.
-   - "Based on my usage/history": query_energy_usage (and query_solar_generation if solar is relevant), \
-using the last 30 days unless the customer says otherwise.
-   - "How much can I save": get the real rates (and usage if needed), then calculate_energy_savings.
-3. Always call search_energy_tips for at least one relevant topic so advice is grounded in the knowledge base, \
-and cite it, e.g. "(EcoHome tip: tip_ev_charging.txt)".
-4. When solar and grid price conflict, prefer free solar energy during the best solar window; otherwise \
-prefer off-peak hours. Avoid peak hours (weekdays 16:00-21:00) for flexible loads.
-5. If a tool returns an error or no data, say so briefly, fall back to sensible general guidance and state \
-your assumptions. Do not retry the same failing call more than once.
-
-## Answer format
-- Lead with a direct answer (the recommended time window, setting or top actions).
-- Support it with the numbers you used: rates in $/kWh, forecast conditions, expected solar kWh, usage figures.
-- Quantify savings in dollars (per occurrence and per year) and, when relevant, kWh and CO2 avoided.
-- Keep it concise and practical: short paragraphs or bullet points, times in 24h format with the date.
-- Only answer questions about home energy. Politely decline unrelated requests.
-"""
 
 
 DEFAULT_HOME_PROFILE = (
@@ -65,8 +22,13 @@ DEFAULT_HOME_PROFILE = (
 )
 
 
+class AgentState(TypedDict):
+    """Graph schema: the conversation so far. add_messages appends new messages instead of replacing them."""
+    messages: Annotated[List[AnyMessage], add_messages]
+
+
 class Agent:
-    def __init__(self, instructions: str = ECOHOME_SYSTEM_PROMPT, model: str = "gpt-4o-mini",
+    def __init__(self, instructions: str, model: str = "gpt-4o-mini",
                  default_location: str = "San Francisco, CA", home_profile: str = DEFAULT_HOME_PROFILE,
                  max_steps: int = 25):
 
@@ -76,29 +38,47 @@ class Agent:
                 "VOCAREUM_API_KEY is not set. Add it to a .env file next to agent.py or export it."
             )
 
+        self.instructions = instructions
         self.default_location = default_location
         self.home_profile = home_profile
         self.max_steps = max_steps
 
-        # Initialize the LLM
-        llm = ChatOpenAI(
+        # Initialize the LLM and give it the tool schemas
+        self.llm = ChatOpenAI(
             model=model,
             temperature=0.0,
             base_url=VOCAREUM_BASE_URL,
             api_key=api_key,
             max_retries=3,
             timeout=60,
-        )
+        ).bind_tools(TOOL_KIT)
 
-        # Create the Energy Advisor agent. The checkpointer keeps conversation history per
-        # thread_id so follow-up questions can build on earlier answers.
-        self.graph = create_react_agent(
-            name="energy_advisor",
-            prompt=SystemMessage(content=instructions),
-            model=llm,
-            tools=TOOL_KIT,
-            checkpointer=InMemorySaver(),
-        )
+        self.graph = self._build_graph()
+
+    def _build_graph(self):
+        """
+        Energy Advisor graph:
+
+            START -> energy_advisor --(tool calls?)--> tools -> energy_advisor
+                                    \\--(final answer)--> END
+        """
+        def energy_advisor(state: AgentState) -> Dict[str, Any]:
+            # The system instructions are prepended on every call rather than stored in the state
+            response = self.llm.invoke([SystemMessage(content=self.instructions)] + state["messages"])
+            return {"messages": [response]}
+
+        builder = StateGraph(AgentState)
+        builder.add_node("energy_advisor", energy_advisor)
+        # ToolNode runs every tool call in the last AI message; tool exceptions are returned to the
+        # model as error messages so it can recover instead of crashing the run
+        builder.add_node("tools", ToolNode(TOOL_KIT, handle_tool_errors=True))
+        builder.add_edge(START, "energy_advisor")
+        builder.add_conditional_edges("energy_advisor", tools_condition, {"tools": "tools", END: END})
+        builder.add_edge("tools", "energy_advisor")
+
+        # The checkpointer keeps conversation history per thread_id so follow-up questions
+        # can build on earlier answers.
+        return builder.compile(checkpointer=InMemorySaver(), name="energy_advisor")
 
     def build_context(self, context: Optional[str] = None) -> str:
         """Context the agent needs to resolve dates and personalize advice."""

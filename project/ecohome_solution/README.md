@@ -91,16 +91,23 @@ ecohome_solution/
 
 ### Agent (`agent.py`)
 
-- **System instructions**: `ECOHOME_SYSTEM_PROMPT` defines the advisor's role, each tool and when to use it, how to work (resolve dates, gather data before answering, always ground advice in the knowledge base and cite it, prefer solar then off-peak, fall back gracefully on tool errors) and the answer format.
-- **Error handling**: a clear error if `VOCAREUM_API_KEY` is missing, LLM retries and timeout, empty-question validation, a recursion (step) limit, and any failure is returned as a friendly message in the same response shape (`response["messages"][-1].content`).
+- **LLM**: `gpt-4o-mini` via the Vocareum endpoint, with the tools bound to it.
+- **Graph**: an explicit LangGraph `StateGraph`:
+  - **Schema**: `AgentState` with a `messages` list that `add_messages` appends to.
+  - **Nodes**: `energy_advisor`, which calls the LLM with the system instructions, and `tools`, a `ToolNode` that runs the requested tool calls.
+  - **Edges**: `START -> energy_advisor`. From `energy_advisor`, a conditional edge goes to `tools` when the model requested tools and to `END` otherwise. `tools -> energy_advisor` loops back.
+- **Contract**: `Agent(instructions, model)` and `invoke(question, context)`. The answer is in `response["messages"][-1].content`.
+- **Error handling**: a clear error if `VOCAREUM_API_KEY` is missing, LLM retries and timeout, tool errors returned to the model instead of crashing, empty-question validation and a step limit. Any failure comes back as a friendly message in the same response shape.
 - **Context awareness**: every call adds the current date and time, tomorrow's date, the next 7 days, the location (defaults to San Francisco, CA) and a configurable home profile, so "tomorrow" or "Wednesday" resolve correctly. Passing the same `thread_id` keeps conversation memory for follow-up questions.
 
 ### Evaluation (`03_run_and_evaluate.ipynb`)
 
+- **`ECOHOME_SYSTEM_PROMPT`** is written in the notebook and passed to `Agent(instructions=ECOHOME_SYSTEM_PROMPT)`. It covers the advisor's role, key capabilities (tools), the steps to follow, how to make recommendations and example questions.
 - 12 test cases: EV charging, thermostat during a price spike, usage-history recommendations, dishwasher savings, pool pump scheduling, solar self-consumption, recent energy balance, EV load-shift savings, HVAC cost, home battery strategy, laundry timing and an off-topic request.
-- **Response evaluator**: LLM-as-judge scoring accuracy, relevance, completeness and reasoning (1-5), given the tool outputs so it can check the numbers.
-- **Tool usage evaluator**: recall and precision of the tools called against the expected tools.
-- **Report**: pass rate, average scores per criterion, strengths, weaknesses, most often missed tools and recommendations, plus a per-test table.
+- `test_results` logs each test's final response, the tools the agent called with their arguments and result previews, errors and duration.
+- **`evaluate_response()`**: LLM-as-judge scoring **accuracy, relevance, completeness, usefulness** and reasoning (1-5), with feedback on strengths, weaknesses and suggestions. The judge also sees the tool outputs so it can check the numbers.
+- **`evaluate_tool_usage()`**: **tool appropriateness** (share of the tools called that were the right ones) and **tool completeness** (share of the necessary tools that were called), with feedback on missing, extra, failed and repeated calls.
+- **`generate_evaluation_report()`** returns a structured report (overall metrics, per-criterion scores, strengths, weaknesses, recommendations, per-test details) and **`display_evaluation_report()`** presents it.
 
 ## Setup Instructions
 
