@@ -82,11 +82,12 @@ ecohome_solution/
 ### Tools (`tools.py`)
 
 - **`get_weather_forecast`** (implemented): mock forecast for 1-7 days, deterministic per location and date so repeated calls agree. Returns current conditions, hourly temperature, condition, solar irradiance and **estimated solar generation** for a 5 kW system, plus a per-day summary with total expected solar kWh and the best solar window.
-- **`get_electricity_prices`** (implemented): mock time-of-use tariff around a $0.15/kWh base rate. Off-peak 22:00-06:00 (0.6x), peak 16:00-21:00 on weekdays (1.8x, with demand charge), mid-peak otherwise. Returns hourly rates and a summary of the cheapest and most expensive hours. Invalid dates return an error message.
+- **`get_electricity_prices`** (implemented): mock time-of-use tariff around a $0.15/kWh base rate. Off-peak 22:00-06:00 (0.6x), peak 16:00-21:00 on weekdays (1.8x, with demand charge), mid-peak otherwise. Returns hourly rates, the rate of each period and the cheapest and most expensive hours. An optional `hour` argument returns the exact rate for a time the customer names (e.g. 7 PM). Invalid dates or hours return an error message.
 - **`query_energy_usage` / `query_solar_generation`**: now also return per-device breakdowns, daily totals, average hour-of-day profiles and generation by weather. Individual records are capped at the 48 most recent so long ranges don't flood the model's context (totals still cover every record). The device filter is case-insensitive.
 - **`get_recent_energy_summary`**: reports the actual dominant weather (it was always "sunny"), net grid consumption and solar coverage.
 - **`search_energy_tips`**: indexes **every** `.txt` file in `data/documents/`, caches the vector store between calls and returns the source file name so the agent can cite it.
 - **`calculate_energy_savings`**: supports load shifting (`optimized_price_per_kwh`), configurable frequency (`occurrences_per_year`) and reports monthly/annual savings and CO2 avoided.
+- Sample data in `01_db_setup.ipynb` uses realistic daily totals (EV ~10 kWh charged in the evening, HVAC ~15-20 kWh, a few appliance runs) priced with the same time-of-use tariff as the price tool.
 - All tools resolve data paths relative to `tools.py` and return `{"error": ...}` instead of raising.
 
 ### Agent (`agent.py`)
@@ -105,7 +106,7 @@ ecohome_solution/
 - **`ECOHOME_SYSTEM_PROMPT`** is written in the notebook and passed to `Agent(instructions=ECOHOME_SYSTEM_PROMPT)`. It covers the advisor's role, key capabilities (tools), the steps to follow, how to make recommendations and example questions.
 - 12 test cases: EV charging, thermostat during a price spike, usage-history recommendations, dishwasher savings, pool pump scheduling, solar self-consumption, recent energy balance, EV load-shift savings, HVAC cost, home battery strategy, laundry timing and an off-topic request.
 - `test_results` logs each test's final response, the tools the agent called with their arguments and result previews, errors and duration.
-- **`evaluate_response()`**: LLM-as-judge scoring **accuracy, relevance, completeness, usefulness** and reasoning (1-5), with feedback on strengths, weaknesses and suggestions. The judge also sees the tool outputs so it can check the numbers.
+- **`evaluate_response()`**: LLM-as-judge (`gpt-4o`, a stronger model than the agent's `gpt-4o-mini`) with strict rules, scoring **accuracy, relevance, completeness, usefulness** and reasoning (1-5), with feedback on strengths, weaknesses and suggestions. The judge also sees the tool outputs so it can check the numbers.
 - **`evaluate_tool_usage()`**: **tool appropriateness** (share of the tools called that were the right ones) and **tool completeness** (share of the necessary tools that were called), with feedback on missing, extra, failed and repeated calls.
 - **`generate_evaluation_report()`** returns a structured report (overall metrics, per-criterion scores, strengths, weaknesses, recommendations, per-test details) and **`display_evaluation_report()`** presents it.
 

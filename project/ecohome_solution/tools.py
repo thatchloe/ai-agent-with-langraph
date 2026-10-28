@@ -84,7 +84,8 @@ def get_weather_forecast(location: str, days: int = 3) -> Dict[str, Any]:
 
     Returns:
         Dict[str, Any]: Weather forecast data including temperature, conditions, solar irradiance
-        and estimated solar generation per hour, plus a per-day summary with the best solar window.
+        and estimated solar generation per hour, plus a per-day summary with the best solar window
+        and whether the home will need heating or cooling ("hvac_need").
     """
     try:
         if not location or not location.strip():
@@ -149,13 +150,23 @@ def get_weather_forecast(location: str, days: int = 3) -> Dict[str, Any]:
                 day_hours.append(entry)
                 forecast["hourly"].append(entry)
 
+            high_c = max(h["temperature_c"] for h in day_hours)
+            low_c = min(h["temperature_c"] for h in day_hours)
+            if high_c >= 24:
+                hvac_need = "cooling"
+            elif high_c < 20 or low_c < 12:
+                hvac_need = "heating"
+            else:
+                hvac_need = "none"
             producing = [h for h in day_hours if h["estimated_solar_kwh"] >= 0.5 * SOLAR_SYSTEM_PEAK_KW * condition_profiles[day_condition]["cloud_factor"]]
             forecast["daily_summary"].append({
                 "date": date_str,
                 "weekday": day.strftime("%A"),
                 "condition": day_condition,
-                "high_c": round(max(h["temperature_c"] for h in day_hours), 1),
-                "low_c": round(min(h["temperature_c"] for h in day_hours), 1),
+                "high_c": round(high_c, 1),
+                "low_c": round(low_c, 1),
+                # Cooling only pays off on warm days; cool days call for heating/setback advice
+                "hvac_need": hvac_need,
                 "estimated_solar_generation_kwh": round(sum(h["estimated_solar_kwh"] for h in day_hours), 1),
                 "best_solar_window": (
                     f"{producing[0]['hour']:02d}:00-{producing[-1]['hour'] + 1:02d}:00" if producing else None
@@ -168,16 +179,18 @@ def get_weather_forecast(location: str, days: int = 3) -> Dict[str, Any]:
 
 
 @tool
-def get_electricity_prices(date: str = None) -> Dict[str, Any]:
+def get_electricity_prices(date: str = None, hour: int = None) -> Dict[str, Any]:
     """
     Get time-of-use electricity prices for a specific date or current day.
 
     Args:
         date (str): Date in YYYY-MM-DD format (defaults to today)
+        hour (int): Optional hour of day (0-23). When the customer mentions a specific time,
+            e.g. "7 PM" -> 19, pass it to get the exact rate for that hour in "requested_hour".
 
     Returns:
         Dict[str, Any]: Electricity pricing data with hourly rates, the period of each hour
-        (off_peak, mid_peak, peak), and a summary of the cheapest and most expensive hours.
+        (off_peak, mid_peak, peak), the rate of each period, and the cheapest and most expensive hours.
     """
     try:
         if date is None:
@@ -191,10 +204,10 @@ def get_electricity_prices(date: str = None) -> Dict[str, Any]:
         daily_base = BASE_PRICE_PER_KWH * rng.uniform(0.95, 1.05)
 
         hourly_rates = []
-        for hour in range(24):
-            period = _price_period(hour, is_weekend)
+        for h in range(24):
+            period = _price_period(h, is_weekend)
             hourly_rates.append({
-                "hour": hour,
+                "hour": h,
                 "rate": round(daily_base * PERIOD_MULTIPLIERS[period], 4),
                 "period": period,
                 "demand_charge": PERIOD_DEMAND_CHARGES[period],
@@ -203,7 +216,8 @@ def get_electricity_prices(date: str = None) -> Dict[str, Any]:
         rates = [r["rate"] for r in hourly_rates]
         cheapest = min(rates)
         most_expensive = max(rates)
-        return {
+        rates_by_period = {r["period"]: r["rate"] for r in hourly_rates}
+        prices = {
             "date": date,
             "weekday": day.strftime("%A"),
             "pricing_type": "time_of_use",
@@ -216,10 +230,15 @@ def get_electricity_prices(date: str = None) -> Dict[str, Any]:
                 "cheapest_hours": [r["hour"] for r in hourly_rates if r["rate"] == cheapest],
                 "most_expensive_rate": most_expensive,
                 "most_expensive_hours": [r["hour"] for r in hourly_rates if r["rate"] == most_expensive],
-                "average_rate": round(sum(rates) / len(rates), 4),
+                "rates_by_period": rates_by_period,
             },
             "hourly_rates": hourly_rates,
         }
+        if hour is not None:
+            if not 0 <= int(hour) <= 23:
+                return {"error": f"Invalid hour '{hour}'. Use 0-23, e.g. 19 for 7 PM."}
+            prices["requested_hour"] = hourly_rates[int(hour)]
+        return prices
     except ValueError:
         return {"error": f"Invalid date '{date}'. Use the YYYY-MM-DD format."}
     except Exception as e:
