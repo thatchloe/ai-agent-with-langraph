@@ -95,8 +95,8 @@ ecohome_solution/
 - **LLM**: `gpt-4o-mini` via the Vocareum endpoint, with the tools bound to it.
 - **Graph**: an explicit LangGraph `StateGraph`:
   - **Schema**: `AgentState` with a `messages` list that `add_messages` appends to.
-  - **Nodes**: `energy_advisor`, which calls the LLM with the system instructions, and `tools`, a `ToolNode` that runs the requested tool calls.
-  - **Edges**: `START -> energy_advisor`. From `energy_advisor`, a conditional edge goes to `tools` when the model requested tools and to `END` otherwise. `tools -> energy_advisor` loops back.
+  - **Nodes**: `energy_advisor`, which calls the LLM with the system instructions; `tools`, a `ToolNode` that runs the requested tool calls; and `retrieve_tips`, which forces a `search_energy_tips` call.
+  - **Edges**: `START -> energy_advisor`. From `energy_advisor`, a conditional edge goes to `tools` when the model requested tools. If the model wrote a final answer after using data tools but without searching the knowledge base, the edge goes to `retrieve_tips`, which discards that draft and calls `search_energy_tips` before the advisor answers again. Otherwise it goes to `END`, so off-topic refusals, which call no tools, end directly. `retrieve_tips -> tools` and `tools -> energy_advisor` loop back.
 - **Contract**: `Agent(instructions, model)` and `invoke(question, context)`. The answer is in `response["messages"][-1].content`.
 - **Error handling**: a clear error if `VOCAREUM_API_KEY` is missing, LLM retries and timeout, tool errors returned to the model instead of crashing, empty-question validation and a step limit. Any failure comes back as a friendly message in the same response shape.
 - **Context awareness**: every call adds the current date and time, tomorrow's date, the next 7 days, the location (defaults to San Francisco, CA) and a configurable home profile, so "tomorrow" or "Wednesday" resolve correctly. Passing the same `thread_id` keeps conversation memory for follow-up questions.
@@ -107,7 +107,7 @@ ecohome_solution/
 - 12 test cases: EV charging, thermostat during a price spike, usage-history recommendations, dishwasher savings, pool pump scheduling, solar self-consumption, recent energy balance, EV load-shift savings, HVAC cost, home battery strategy, laundry timing and an off-topic request.
 - `test_results` logs each test's final response, the tools the agent called with their arguments and result previews, errors and duration.
 - **`evaluate_response()`**: LLM-as-judge (`gpt-4o`, a stronger model than the agent's `gpt-4o-mini`) with strict rules, scoring **accuracy, relevance, completeness, usefulness** and reasoning (1-5), with feedback on strengths, weaknesses and suggestions. The judge also sees the tool outputs so it can check the numbers.
-- **`evaluate_tool_usage()`**: **tool appropriateness** (share of the tools called that were the right ones) and **tool completeness** (share of the necessary tools that were called), with feedback on missing, extra, failed and repeated calls.
+- **`evaluate_tool_usage()`**: **tool appropriateness** (share of the tools called that were the right ones) and **tool completeness** (share of the necessary tools that were called), with feedback on missing, extra, failed and repeated calls. A test passes only if its response score is at least 3.5/5, **every** expected tool was called and no error occurred.
 - **`generate_evaluation_report()`** returns a structured report (overall metrics, per-criterion scores, strengths, weaknesses, recommendations, per-test details) and **`display_evaluation_report()`** presents it.
 
 ## Setup Instructions

@@ -5,7 +5,7 @@ from typing import Annotated, Any, Dict, List, Optional, TypedDict
 
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import AIMessage, AnyMessage, HumanMessage, SystemMessage
+from langchain_core.messages import AIMessage, AnyMessage, HumanMessage, RemoveMessage, SystemMessage
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.errors import GraphRecursionError
 from langgraph.graph import END, START, StateGraph
@@ -20,6 +20,8 @@ DEFAULT_HOME_PROFILE = (
     "Home profile: rooftop solar (about 5 kW peak), Tesla Model 3 EV, central AC (HVAC), "
     "dishwasher, washing machine and dryer. Usage history covers roughly the last 30 days."
 )
+
+TIPS_TOOL = "search_energy_tips"
 
 
 class AgentState(TypedDict):
@@ -44,22 +46,49 @@ class Agent:
         self.max_steps = max_steps
 
         # Initialize the LLM and give it the tool schemas
-        self.llm = ChatOpenAI(
+        llm = ChatOpenAI(
             model=model,
             temperature=0.0,
             base_url=VOCAREUM_BASE_URL,
             api_key=api_key,
             max_retries=3,
             timeout=60,
-        ).bind_tools(TOOL_KIT)
+        )
+        self.llm = llm.bind_tools(TOOL_KIT)
+        # Same model, but forced to call the knowledge base search
+        self.tips_llm = llm.bind_tools(TOOL_KIT, tool_choice=TIPS_TOOL)
 
         self.graph = self._build_graph()
+
+    @staticmethod
+    def _current_turn(messages: List[AnyMessage]) -> List[AnyMessage]:
+        """Messages since the customer's latest question."""
+        for i in range(len(messages) - 1, -1, -1):
+            if isinstance(messages[i], HumanMessage):
+                return messages[i + 1:]
+        return messages
+
+    def _route_after_advisor(self, state: AgentState) -> str:
+        """Run requested tools; make sure an energy answer is grounded in the knowledge base before it ends."""
+        if tools_condition(state) == "tools":
+            return "tools"
+        tools_called = {
+            call["name"]
+            for msg in self._current_turn(state["messages"]) if isinstance(msg, AIMessage)
+            for call in (msg.tool_calls or [])
+        }
+        # Answers that used data tools but skipped the tip search go back for retrieval.
+        # Off-topic refusals call no tools, so they end here untouched.
+        if tools_called and TIPS_TOOL not in tools_called:
+            return "retrieve_tips"
+        return END
 
     def _build_graph(self):
         """
         Energy Advisor graph:
 
             START -> energy_advisor --(tool calls?)--> tools -> energy_advisor
+                                    |--(answer without tips)--> retrieve_tips -> tools -> energy_advisor
                                     \\--(final answer)--> END
         """
         def energy_advisor(state: AgentState) -> Dict[str, Any]:
@@ -67,13 +96,25 @@ class Agent:
             response = self.llm.invoke([SystemMessage(content=self.instructions)] + state["messages"])
             return {"messages": [response]}
 
+        def retrieve_tips(state: AgentState) -> Dict[str, Any]:
+            # Drop the ungrounded draft and force a search_energy_tips call for the same question;
+            # the advisor then writes the final answer with the retrieved tips in view
+            draft = state["messages"][-1]
+            tip_call = self.tips_llm.invoke([SystemMessage(content=self.instructions)] + state["messages"][:-1])
+            return {"messages": [RemoveMessage(id=draft.id), tip_call]}
+
         builder = StateGraph(AgentState)
         builder.add_node("energy_advisor", energy_advisor)
+        builder.add_node("retrieve_tips", retrieve_tips)
         # ToolNode runs every tool call in the last AI message; tool exceptions are returned to the
         # model as error messages so it can recover instead of crashing the run
         builder.add_node("tools", ToolNode(TOOL_KIT, handle_tool_errors=True))
         builder.add_edge(START, "energy_advisor")
-        builder.add_conditional_edges("energy_advisor", tools_condition, {"tools": "tools", END: END})
+        builder.add_conditional_edges(
+            "energy_advisor", self._route_after_advisor,
+            {"tools": "tools", "retrieve_tips": "retrieve_tips", END: END},
+        )
+        builder.add_edge("retrieve_tips", "tools")
         builder.add_edge("tools", "energy_advisor")
 
         # The checkpointer keeps conversation history per thread_id so follow-up questions
