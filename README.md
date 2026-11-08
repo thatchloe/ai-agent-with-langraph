@@ -50,3 +50,4 @@ A LangGraph-powered agent system that:
 
 - [`project/ecohome_solution/`](project/ecohome_solution/) - the completed project. See its [README](project/ecohome_solution/README.md) for setup instructions and implementation details.
 - [`project/ecohome_starter/`](project/ecohome_starter/) - the original starter code.
+- [`autonomous-knowledge-agent/`](autonomous-knowledge-agent/) - **UDA-Hub**, a multi-agent customer-support system (LangGraph supervisor, semantic RAG, 26 FastMCP tools, short- and long-term memory, multiple channels, A/B-tested routing). See its [README](autonomous-knowledge-agent/README.md) and [design document](autonomous-knowledge-agent/agentic/design/README.md).

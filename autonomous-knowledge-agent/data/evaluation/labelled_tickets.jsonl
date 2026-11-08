@@ -1,0 +1,24 @@
+{"id": "T01", "channel": "chat", "external_user_id": "88382b", "text": "My QR code isn't showing in the app, what can I do?", "acceptable_routes": ["knowledge_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T02", "channel": "chat", "external_user_id": "88382b", "text": "I forgot my password, how do I reset it?", "acceptable_routes": ["knowledge_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T03", "channel": "email", "external_user_id": "f556c0", "text": "Do unused experiences roll over to next month?", "acceptable_routes": ["knowledge_agent", "account_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T04", "channel": "chat", "external_user_id": "88382b", "text": "Can I bring a friend with me to an event?", "acceptable_routes": ["knowledge_agent", "account_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T05", "channel": "chat", "external_user_id": "e6376d", "text": "Is there wheelchair access at the venues?", "acceptable_routes": ["knowledge_agent", "account_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T06", "channel": "chat", "external_user_id": "88382b", "text": "How do I delete my account and all my data?", "acceptable_routes": ["knowledge_agent", "account_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T07", "channel": "chat", "external_user_id": "f556c0", "text": "Which reservations do I have?", "acceptable_routes": ["account_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T08", "channel": "chat", "external_user_id": "f556c0", "text": "Please book Samba Night at Lapa for me", "acceptable_routes": ["account_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T09", "channel": "chat", "external_user_id": "88382b", "text": "Book the Carnival History Tour in Olinda please", "acceptable_routes": ["account_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T10", "channel": "chat", "external_user_id": "e6376d", "text": "What experiences are coming up in São Paulo?", "acceptable_routes": ["account_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T11", "channel": "chat", "external_user_id": "f556c0", "text": "How many experiences do I have left this month?", "acceptable_routes": ["account_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T12", "channel": "chat", "external_user_id": "88382b", "text": "I'd like to pause my subscription", "acceptable_routes": ["account_agent"], "acceptable_statuses": ["in_progress"]}
+{"id": "T13", "channel": "chat", "external_user_id": "88382b", "text": "Please change my name to Catherine Bloom", "acceptable_routes": ["account_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T14", "channel": "chat", "external_user_id": "a4ab87", "text": "I can't log in to my account", "acceptable_routes": ["account_agent", "escalation_agent"], "acceptable_statuses": ["escalated"]}
+{"id": "T15", "channel": "email", "external_user_id": "888fb2", "text": "Why is my account blocked? Please unblock it.", "acceptable_routes": ["account_agent", "escalation_agent"], "acceptable_statuses": ["escalated"]}
+{"id": "T16", "channel": "chat", "external_user_id": "88382b", "text": "I was charged twice this month and want a refund", "acceptable_routes": ["account_agent"], "acceptable_statuses": ["escalated"]}
+{"id": "T17", "channel": "chat", "external_user_id": "f556c0", "text": "I want to speak to a human agent", "acceptable_routes": ["escalation_agent"], "acceptable_statuses": ["escalated"]}
+{"id": "T18", "channel": "social", "external_user_id": null, "text": "@cultpass your app crashed during checkout and I missed my event tonight, this is ridiculous!!", "acceptable_routes": ["escalation_agent"], "acceptable_statuses": ["escalated"]}
+{"id": "T19", "channel": "chat", "external_user_id": "e6376d", "text": "Can you recommend a good pizza recipe?", "acceptable_routes": ["knowledge_agent"], "acceptable_statuses": ["escalated"]}
+{"id": "T20", "channel": "chat", "external_user_id": "88382b", "text": "What is the capital of France?", "acceptable_routes": ["knowledge_agent"], "acceptable_statuses": ["escalated"]}
+{"id": "T21", "channel": "email", "external_user_id": "f1f10d", "text": "My subscription was cancelled, can I reactivate it?", "acceptable_routes": ["account_agent"], "acceptable_statuses": ["in_progress", "resolved"]}
+{"id": "T22", "channel": "chat", "external_user_id": "f556c0", "text": "This is the worst service ever, nothing works and nobody helps me!", "acceptable_routes": ["escalation_agent"], "acceptable_statuses": ["escalated"]}
+{"id": "T23", "channel": "chat", "external_user_id": "88382b", "text": "The museum cancelled the event, do I get my credit back?", "acceptable_routes": ["knowledge_agent", "account_agent"], "acceptable_statuses": ["resolved"]}
+{"id": "T24", "channel": "chat", "external_user_id": "e6376d", "text": "Cancel my reservation for Samba Night at Lapa", "acceptable_routes": ["account_agent"], "acceptable_statuses": ["resolved"]}

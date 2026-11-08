@@ -1,0 +1,19 @@
+# Python 3.11 (tested with 3.11.5). Install: pip install -r requirements.txt
+# Starter requirements, pinned to the versions this solution was built and tested with.
+fastmcp==3.4.11
+httpx==0.28.1
+ipykernel==7.4.0
+langchain==1.4.9
+langchain-core==1.7.6
+langchain-mcp-adapters==0.3.1
+langchain-openai==1.7.4
+langgraph==1.2.20
+langgraph-checkpoint==4.3.1
+langgraph-supervisor==0.0.31
+python-dotenv==1.2.4
+sqlalchemy==2.1.8
+# Added for this solution
+mcp==1.30.0        # pinned < 2: langchain-mcp-adapters 0.3.1 is incompatible with mcp 2.x (pulled in by fastmcp 4)
+pydantic==2.14.3
+pytest==9.2.0      # test suite
+nbclient==0.11.0   # executing the setup notebooks headless (optional)
