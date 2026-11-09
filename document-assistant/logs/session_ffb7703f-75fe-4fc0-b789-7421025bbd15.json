@@ -1,0 +1,108 @@
+[
+  {
+    "timestamp": "2026-11-09T23:05:53.295297",
+    "tool_name": "document_reader",
+    "input": {
+      "doc_id": "CLM-001"
+    },
+    "output": "{'found': True, 'doc_type': 'claim'}"
+  },
+  {
+    "timestamp": "2026-11-09T23:06:06.704667",
+    "tool_name": "document_search",
+    "input": {
+      "query": "contracts",
+      "search_type": "type",
+      "doc_type": "contract",
+      "min_amount": null,
+      "max_amount": null,
+      "comparison": null,
+      "amount": null
+    },
+    "output": "{'results_count': 1}"
+  },
+  {
+    "timestamp": "2026-11-09T23:06:08.080910",
+    "tool_name": "document_reader",
+    "input": {
+      "doc_id": "CON-001"
+    },
+    "output": "{'found': True, 'doc_type': 'contract'}"
+  },
+  {
+    "timestamp": "2026-11-09T23:06:19.480180",
+    "tool_name": "document_search",
+    "input": {
+      "query": "invoices",
+      "search_type": "type",
+      "doc_type": "invoice",
+      "min_amount": null,
+      "max_amount": null,
+      "comparison": null,
+      "amount": null
+    },
+    "output": "{'results_count': 3}"
+  },
+  {
+    "timestamp": "2026-11-09T23:06:21.238272",
+    "tool_name": "document_reader",
+    "input": {
+      "doc_id": "INV-001"
+    },
+    "output": "{'found': True, 'doc_type': 'invoice'}"
+  },
+  {
+    "timestamp": "2026-11-09T23:06:21.238937",
+    "tool_name": "document_reader",
+    "input": {
+      "doc_id": "INV-002"
+    },
+    "output": "{'found': True, 'doc_type': 'invoice'}"
+  },
+  {
+    "timestamp": "2026-11-09T23:06:21.239971",
+    "tool_name": "document_reader",
+    "input": {
+      "doc_id": "INV-003"
+    },
+    "output": "{'found': True, 'doc_type': 'invoice'}"
+  },
+  {
+    "timestamp": "2026-11-09T23:06:22.706858",
+    "tool_name": "calculator",
+    "input": {
+      "expression": "22000 + 69300 + 214500"
+    },
+    "output": "{'result': '305800'}"
+  },
+  {
+    "timestamp": "2026-11-09T23:06:32.029709",
+    "tool_name": "calculator",
+    "input": {
+      "expression": "214500 - 69300"
+    },
+    "output": "{'result': '145200'}"
+  },
+  {
+    "timestamp": "2026-11-09T23:06:42.448698",
+    "tool_name": "document_search",
+    "input": {
+      "query": "documents over $50,000",
+      "search_type": "amount",
+      "doc_type": null,
+      "min_amount": null,
+      "max_amount": null,
+      "comparison": "over",
+      "amount": 50000.0
+    },
+    "output": "{'results_count': 3}"
+  },
+  {
+    "timestamp": "2026-11-09T23:06:54.903632",
+    "tool_name": "calculator",
+    "input": {
+      "expression": "214500 * 0.10"
+    },
+    "output": "{'result': '21450'}"
+  }
+]
